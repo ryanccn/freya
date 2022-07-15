@@ -1,0 +1,31 @@
+{
+  "name": "freya",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "types": "openapi-typescript https://zjexabqqcvbxwrzztznw.supabase.co/rest/v1/?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqZXhhYnFxY3ZieHdyenp0em53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDgzNDcxOTIsImV4cCI6MTk2MzkyMzE5Mn0.h_Hth5OiUqXyhFg1A9tnMGPMQNh7wokIvHwMkZH55iU --output types/supabase.ts"
+  },
+  "dependencies": {
+    "next": "12.1.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "zod": "^3.14.3"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^1.32.2",
+    "@types/bcrypt": "^5.0.0",
+    "@types/node": "17.0.23",
+    "@types/react": "17.0.43",
+    "autoprefixer": "^10.4.4",
+    "bcrypt": "^5.0.1",
+    "eslint": "8.12.0",
+    "eslint-config-next": "12.1.1",
+    "openapi-typescript": "^5.2.0",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23",
+    "typescript": "4.6.3"
+  }
+}

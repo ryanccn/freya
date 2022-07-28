@@ -7,7 +7,9 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 if (!SUPABASE_KEY || !SUPABASE_URL)
   throw new Error('incomplete environment variables');
 
-const client = createClient(SUPABASE_URL, SUPABASE_KEY);
+const client = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  shouldThrowOnError: true,
+});
 
 export const users = client.from<definitions['users']>('users');
 export const profiles = client.from<definitions['profiles']>('profiles');

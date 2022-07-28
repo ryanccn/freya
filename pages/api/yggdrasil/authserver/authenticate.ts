@@ -47,7 +47,7 @@ const handler: NextApiHandler<ResData> = async (req, res) => {
     yggdrasilGenericError(res, 404);
     return;
   }
-  if (!compare(data.password, userData[0].password)) {
+  if (!(await compare(data.password, userData[0].password))) {
     yggdrasilLoginError(res);
     return;
   }

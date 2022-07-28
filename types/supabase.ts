@@ -12,13 +12,13 @@ export interface paths {
       };
     };
   };
-  "/profiles": {
+  "/tokens": {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          name?: parameters["rowFilter.profiles.name"];
-          texture?: parameters["rowFilter.profiles.texture"];
+          access_token?: parameters["rowFilter.tokens.access_token"];
+          client_token?: parameters["rowFilter.tokens.client_token"];
+          profile?: parameters["rowFilter.tokens.profile"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -40,7 +40,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["profiles"][];
+          schema: definitions["tokens"][];
         };
         /** Partial Content */
         206: unknown;
@@ -49,8 +49,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** profiles */
-          profiles?: definitions["profiles"];
+          /** tokens */
+          tokens?: definitions["tokens"];
         };
         query: {
           /** Filtering Columns */
@@ -69,9 +69,9 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          name?: parameters["rowFilter.profiles.name"];
-          texture?: parameters["rowFilter.profiles.texture"];
+          access_token?: parameters["rowFilter.tokens.access_token"];
+          client_token?: parameters["rowFilter.tokens.client_token"];
+          profile?: parameters["rowFilter.tokens.profile"];
         };
         header: {
           /** Preference */
@@ -86,13 +86,13 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.profiles.id"];
-          name?: parameters["rowFilter.profiles.name"];
-          texture?: parameters["rowFilter.profiles.texture"];
+          access_token?: parameters["rowFilter.tokens.access_token"];
+          client_token?: parameters["rowFilter.tokens.client_token"];
+          profile?: parameters["rowFilter.tokens.profile"];
         };
         body: {
-          /** profiles */
-          profiles?: definitions["profiles"];
+          /** tokens */
+          tokens?: definitions["tokens"];
         };
         header: {
           /** Preference */
@@ -204,13 +204,13 @@ export interface paths {
       };
     };
   };
-  "/tokens": {
+  "/profiles": {
     get: {
       parameters: {
         query: {
-          access_token?: parameters["rowFilter.tokens.access_token"];
-          client_token?: parameters["rowFilter.tokens.client_token"];
-          profile?: parameters["rowFilter.tokens.profile"];
+          id?: parameters["rowFilter.profiles.id"];
+          name?: parameters["rowFilter.profiles.name"];
+          texture?: parameters["rowFilter.profiles.texture"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -232,7 +232,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["tokens"][];
+          schema: definitions["profiles"][];
         };
         /** Partial Content */
         206: unknown;
@@ -241,8 +241,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** tokens */
-          tokens?: definitions["tokens"];
+          /** profiles */
+          profiles?: definitions["profiles"];
         };
         query: {
           /** Filtering Columns */
@@ -261,9 +261,9 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          access_token?: parameters["rowFilter.tokens.access_token"];
-          client_token?: parameters["rowFilter.tokens.client_token"];
-          profile?: parameters["rowFilter.tokens.profile"];
+          id?: parameters["rowFilter.profiles.id"];
+          name?: parameters["rowFilter.profiles.name"];
+          texture?: parameters["rowFilter.profiles.texture"];
         };
         header: {
           /** Preference */
@@ -278,13 +278,13 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          access_token?: parameters["rowFilter.tokens.access_token"];
-          client_token?: parameters["rowFilter.tokens.client_token"];
-          profile?: parameters["rowFilter.tokens.profile"];
+          id?: parameters["rowFilter.profiles.id"];
+          name?: parameters["rowFilter.profiles.name"];
+          texture?: parameters["rowFilter.profiles.texture"];
         };
         body: {
-          /** tokens */
-          tokens?: definitions["tokens"];
+          /** profiles */
+          profiles?: definitions["profiles"];
         };
         header: {
           /** Preference */
@@ -396,22 +396,21 @@ export interface paths {
 }
 
 export interface definitions {
-  profiles: {
+  tokens: {
     /**
-     * Format: uuid
+     * Format: text
      * @description Note:
      * This is a Primary Key.<pk/>
-     * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    access_token: string;
     /** Format: text */
-    name: string;
+    client_token?: string;
     /**
      * Format: uuid
      * @description Note:
-     * This is a Foreign Key to `textures.uuid`.<fk table='textures' column='uuid'/>
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    texture?: string;
+    profile: string;
   };
   textures: {
     /** Format: text */
@@ -430,22 +429,22 @@ export interface definitions {
      */
     hash: string;
   };
-  tokens: {
+  profiles: {
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    access_token: string;
-    /** Format: uuid */
-    client_token: string;
+    id: string;
+    /** Format: text */
+    name: string;
     /**
      * Format: uuid
      * @description Note:
-     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * This is a Foreign Key to `textures.uuid`.<fk table='textures' column='uuid'/>
      */
-    profile: string;
+    texture?: string;
   };
   users: {
     /**
@@ -464,7 +463,7 @@ export interface definitions {
      * @description Note:
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
-    selected_profile: string;
+    selected_profile?: string;
   };
 }
 
@@ -501,14 +500,14 @@ export interface parameters {
   offset: string;
   /** @description Limiting and Pagination */
   limit: string;
-  /** @description profiles */
-  "body.profiles": definitions["profiles"];
-  /** Format: uuid */
-  "rowFilter.profiles.id": string;
+  /** @description tokens */
+  "body.tokens": definitions["tokens"];
   /** Format: text */
-  "rowFilter.profiles.name": string;
+  "rowFilter.tokens.access_token": string;
+  /** Format: text */
+  "rowFilter.tokens.client_token": string;
   /** Format: uuid */
-  "rowFilter.profiles.texture": string;
+  "rowFilter.tokens.profile": string;
   /** @description textures */
   "body.textures": definitions["textures"];
   /** Format: text */
@@ -522,14 +521,14 @@ export interface parameters {
    * @description Hash of the textures file
    */
   "rowFilter.textures.hash": string;
-  /** @description tokens */
-  "body.tokens": definitions["tokens"];
+  /** @description profiles */
+  "body.profiles": definitions["profiles"];
   /** Format: uuid */
-  "rowFilter.tokens.access_token": string;
+  "rowFilter.profiles.id": string;
+  /** Format: text */
+  "rowFilter.profiles.name": string;
   /** Format: uuid */
-  "rowFilter.tokens.client_token": string;
-  /** Format: uuid */
-  "rowFilter.tokens.profile": string;
+  "rowFilter.profiles.texture": string;
   /** @description users */
   "body.users": definitions["users"];
   /** Format: uuid */

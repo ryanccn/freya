@@ -2,7 +2,10 @@ import type { NextApiHandler } from 'next';
 import { z } from 'zod';
 import { tokens } from '~/lib/supabase';
 
-import { yggdrasilGenericError } from '~/lib/yggdrasil/error';
+import {
+  yggdrasilGenericError,
+  yggdrasilInvalidTokenError,
+} from '~/lib/yggdrasil/error';
 import type { User, Profile } from '~/types/yggdrasil';
 
 const ReqData = z.object({
@@ -48,17 +51,17 @@ const handler: NextApiHandler = async (req, res) => {
   let databaseQuery = tokens.select('*').eq('access_token', data.accessToken);
   if (data.clientToken)
     databaseQuery = databaseQuery.eq('client_token', data.clientToken);
-  const { data: databaseData, error } = await databaseQuery;
+  const { data: databaseData } = await databaseQuery;
 
-  if (error) {
-    console.error(error);
-    yggdrasilGenericError(res, 500);
+  if (!databaseData || databaseData.length === 0) {
+    yggdrasilInvalidTokenError(res);
     return;
   }
-  if (databaseData.length === 0) {
-    yggdrasilGenericError(res, 401);
-    return;
-  }
+
+  let deleteCommand = tokens.delete().eq('access_token', data.accessToken);
+  if (data.clientToken)
+    deleteCommand = deleteCommand.eq('client_token', data.clientToken);
+  await deleteCommand;
 };
 
 export default handler;
